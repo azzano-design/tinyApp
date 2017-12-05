@@ -12,6 +12,19 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+
+function generateRandomString() {
+  let potentialChar = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  let string_length = 6;
+  let shortendURL = '';
+  for (let i = 0; i < string_length; i++) {
+    let randNum = Math.floor(Math.random() * potentialChar.length);
+    shortendURL += potentialChar.substring(randNum, randNum + 1);
+  }
+  return(shortendURL);
+}
+
+// GET REQUESTS
 app.get("/", (req, res) => {
   res.end("Hello!");
 });
@@ -24,13 +37,6 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
-// POST FOR URLS
-app.post("/urls", (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
-});
-
-// GET FOR URLS
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
@@ -45,6 +51,15 @@ app.get("/hello", (req, res) => {
   res.end("<html><body>Hello <b>World!</b></body></html>\n");
 });
 
+
+// POST REQUESTS
+app.post("/urls", (req, res) => {
+  console.log(req.body);  // debug statement to see POST parameters
+  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
+
+
+// PORT LISTENING AT
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
