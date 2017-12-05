@@ -3,8 +3,9 @@ const app = express();
 const PORT = process.env.PORT || 8080; // default port 8080
 const bodyParser = require("body-parser");
 
-app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -23,16 +24,16 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
-// GET FOR URLS
-app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
-  res.render("urls_index", templateVars);
-});
-
 // POST FOR URLS
 app.post("/urls", (req, res) => {
   console.log(req.body);  // debug statement to see POST parameters
   res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
+
+// GET FOR URLS
+app.get("/urls", (req, res) => {
+  let templateVars = { urls: urlDatabase };
+  res.render("urls_index", templateVars);
 });
 
 app.get("/urls/:id", (req, res) => {
