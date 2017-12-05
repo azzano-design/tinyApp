@@ -1,0 +1,15 @@
+<!-- DOCTYPE HTML -->
+<html>
+  <head>
+    <title>Tiny App - URL Index</title>
+  </head>
+  <body>
+    <h1>TinyApp</h1>
+    <ul>
+      <% for (let urlListing in urls) { %>
+        <li><strong><%= urls[urlListing] %></strong> –––– <em><%= urlListing %></em></li>
+      <% } %>
+    </ul>
+    <a>Create new Tiny URL</a>
+  </body>
+</html>
