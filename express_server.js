@@ -7,7 +7,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-const urlDatabase = {
+var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
@@ -58,6 +58,15 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:id", (req, res) => {
   let templateVars = { shortURL: req.params.id };
   res.render("urls_show", templateVars);
+});
+
+// SHORT URL DELETE
+app.post("/urls/:id/delete", (req, res) => {
+  let shortURL = req.params.id;
+  let shortURLString = shortURL.toString();
+  let templateVars = { urls: urlDatabase };
+  delete templateVars.urls[shortURLString];
+  res.redirect(302, '/urls');
 });
 
 // LONG URL REDIRECT

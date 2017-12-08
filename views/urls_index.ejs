@@ -5,7 +5,11 @@
     <% include ../partials/_header %>
     <ul>
       <% for (let urlListing in urls) { %>
-        <li><strong><%= urls[urlListing] %></strong> –––– <em><%= urlListing %></em></li>
+        <li><strong><%= urls[urlListing] %></strong> –––– <em><%= urlListing %></em>
+          <form method="POST" action="/urls/<%= urlListing %>/delete">
+            <input type="submit" value="delete">
+          </form>
+        </li>
       <% } %>
     </ul>
     <a href="/urls/new">Create new Tiny URL</a>
