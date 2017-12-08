@@ -8,6 +8,20 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
+
+var users = {
+  "userRandomID": {
+    id: "userRandomID",
+    email: "bruce@waynetech.com",
+    password: "deadparents123"
+  },
+ "user2RandomID": {
+    id: "user2RandomID",
+    email: "jackwhite@acelabs.com",
+    password: "H4H4H4!"
+  }
+}
+
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -27,28 +41,56 @@ function generateRandomString() {
 
 // REGISTER PAGE
 app.get("/register", (req, res) => {
-  let templateVars = { username: req.cookies["username"] };
+  let templateVars = { user_id: req.cookies["user_id"] };
   res.render("register", templateVars);
 });
 
 // REGISTER ADD
 app.post("/register", (req, res) => {
-  let username = req.body.username;
+  let email = req.body.email;
   let password = req.body.password;
-  res.redirect('/urls');
+  let userDatabase = Object.keys(users);
+  var userExists = false;
+
+  // Check if form is actually entered
+  if (password === '' || email === '') {
+    res.status(400);
+    res.send('You must enter both an email and password');
+    return;
+  }
+  // Check database if entered email already exists
+  for(var i = 0; i < userDatabase.length; i++) {
+    existingEmail = users[userDatabase[i]].email;
+    if (existingEmail == email) {
+      userExists = true;
+    }
+  }
+  // If it does, send nasty error
+  // If it doesn't add them to userDatabase
+  if ( userExists === true ){
+    res.status(400);
+    res.send('User already exists, please use a different email');
+  } else {
+      id = generateRandomString();
+      user = { id: id, email: email, password: password};
+      users[id] = user;
+      res.cookie('user_id', id);
+      res.redirect('/urls');
+  }
 });
+
 
 // LOGIN
 app.post("/login", (req, res) => {
-  let username = req.body.username;
-  res.cookie('username', username);
-  let templateVars = { username: req.cookies["username"] };
+  let user_id = req.body.username;
+  res.cookie('user_id', user_id);
+  let templateVars = { user_id: req.cookies["user_id"] };
   res.redirect('/urls');
 });
 
 // LOGOUT
 app.post("/logout", (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect('/urls');
 });
 
@@ -64,13 +106,13 @@ app.get("/urls.json", (req, res) => {
 
 // NEW URLS PAGE
 app.get("/urls/new", (req, res) => {
-  let templateVars = { username: req.cookies["username"] };
+  let templateVars = { user_id: req.cookies["user_id"] };
   res.render("urls_new", templateVars);
 });
 
 // URL LISTING
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  let templateVars = { urls: urlDatabase, user_id: req.cookies["user_id"] };
   res.render("urls_index", templateVars);
 });
 
@@ -78,13 +120,13 @@ app.get("/urls", (req, res) => {
 app.post("/urls", (req, res) => {
   let shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
-  let templateVars = { username: req.cookies["username"] };
+  let templateVars = { user_id: req.cookies["user_id"] };
   res.redirect(`/urls/${shortURL}`);
 });
 
 // SHORT URL SHOW
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { shortURL: req.params.id, urlDatabase: urlDatabase, username: req.cookies["username"] };
+  let templateVars = { shortURL: req.params.id, urlDatabase: urlDatabase, user_id: req.cookies["user_id"] };
   res.render("urls_show", templateVars);
 });
 
@@ -93,7 +135,7 @@ app.post("/urls/:id", (req, res) => {
   let shortURL = req.params.id;
   let newURL = req.body.newURL;
   urlDatabase[shortURL] = newURL;
-  let templateVars = { username: req.cookies["username"] };
+  let templateVars = { user_id: req.cookies["user_id"] };
   res.redirect('/urls');
 })
 
@@ -101,7 +143,7 @@ app.post("/urls/:id", (req, res) => {
 app.post("/urls/:id/delete", (req, res) => {
   let shortURL = req.params.id;
   let shortURLString = shortURL.toString();
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  let templateVars = { urls: urlDatabase, user_id: req.cookies["user_id"] };
   delete templateVars.urls[shortURLString];
   res.redirect('/urls');
 });
