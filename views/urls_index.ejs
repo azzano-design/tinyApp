@@ -4,9 +4,10 @@
   <body style="font-size:20px; padding:50px;">
     <% include ../partials/_header %>
     <ul>
-      <% for (let urlListing in urls) { %>
-        <li><strong><%= urls[urlListing] %></strong> –––– <em><%= urlListing %></em>
-          <form method="POST" action="/urls/<%= urlListing %>/delete">
+      <% for (let shortURL in urls) { %>
+        <li><strong><%= urls[shortURL] %></strong> –––– <em><%= shortURL %></em>
+          <form method="POST" action="/urls/<%= shortURL %>/delete">
+            <a href="/urls/<%= shortURL %>">Edit Link</a>
             <input type="submit" value="delete">
           </form>
         </li>
