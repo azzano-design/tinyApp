@@ -25,6 +25,19 @@ function generateRandomString() {
   return(shortendURL);
 }
 
+// REGISTER PAGE
+app.get("/register", (req, res) => {
+  let templateVars = { username: req.cookies["username"] };
+  res.render("register", templateVars);
+});
+
+// REGISTER ADD
+app.post("/register", (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
+  res.redirect('/urls');
+});
+
 // LOGIN
 app.post("/login", (req, res) => {
   let username = req.body.username;
