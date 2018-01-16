@@ -1,6 +1,3 @@
-https://github.com/azzano-design/tinyApp/blob/master/docs/tiny_app_dashboard.png
-
-
 # TinyApp
 
 TinyApp is a simple URL shortening service. Users can sign up to create short URLS to share with friends.
