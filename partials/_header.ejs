@@ -1,12 +1,47 @@
-<h1>Tiny App</h1>
-<% if (user_id) { %>
-  <h2><%= user_id %></h2>
-  <form method="POST" action="/logout">
-    <input type="submit" value="Logout">
-  </form>
-<% } else { %>
-  <form method="POST" action="/login">
-    <input name="username" type="text" placeholder="Bruce Wayne">
-    <input type="submit" value="Login">
-  </form>
-<% } %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tiny App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" ></script>
+    <style>
+      nav a {
+        color:#fff !important;
+        margin-right:10px;
+      }
+      nav .nav-button {
+        color:#fff !important;
+        background:transparent;
+        border:0px;
+        padding:0px;
+        font-size:1rem;
+      }
+    </style>
+  </head>
+  <body style="margin-top:6em;">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">TinyApp</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <% if(user === undefined ){ %>
+            <li class="nav-item">
+              <a href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+              <a href="/login">Login</a>
+            </li>
+          <%}else if(user.id){ %>
+            <li class="nav-item">
+              <form method="POST" action="/logout" style="display:inline;">
+                <button type="submit" name="Submit" class="nav-button"> Log Out </button>
+              </form>
+            </li>
+          <% } %>
+          </ul>
+        </div>
+      </nav>

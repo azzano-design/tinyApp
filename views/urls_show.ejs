@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head></head>
-  <body style="font-size:20px; padding:50px;">
-    <% include ../partials/_header %>
-  <body>
-    <strong>Short URL</strong> –––– <em><%= shortURL %></em>
-    <form method="POST" action="/urls/<%= shortURL %>">
-      <input name="newURL" type="text" placeholder="<%= urlDatabase[shortURL] %>">
-      <input type="submit" value="Update">
-    </form>
+<% include ../partials/_header %>
+  <!-- Body in header partial -->
+    <main role="main">
+      <div class="container">
+        <h2 style="margin-bottom:25px;">Short URL</h2>
+        <strong><%= longURL %></strong> –––– <em><a href="/u/<%= shortURL %>"><%= shortURL %></a></em>
+        <form method="post" action="/urls/<%= shortURL %>">
+          <input id="longURL" name="longURL" type="text" placeholder="New Forwarding Link" style="padding:6px; margin-top:10px;">
+          <input type="submit" value="Update URL" class="btn btn-warning">
+        </form>
+      </div>
+    </main>
   </body>
 </html>

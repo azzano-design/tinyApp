@@ -1,18 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head></head>
-  <body style="font-size:20px; padding:50px;">
-    <% include ../partials/_header %>
-    <ul>
-      <% for (let shortURL in urls) { %>
-        <li><strong><%= urls[shortURL] %></strong> –––– <em><%= shortURL %></em>
-          <form method="POST" action="/urls/<%= shortURL %>/delete">
-            <a href="/urls/<%= shortURL %>">Edit Link</a>
-            <input type="submit" value="delete">
-          </form>
-        </li>
-      <% } %>
-    </ul>
-    <a href="/urls/new">Create new Tiny URL</a>
+<% include ../partials/_header %>
+  <!-- Body in header partial -->
+    <main role="main">
+      <div class="container">
+        <h2>Dashboard</h2>
+          <ul class="list-group">
+            <% for(let url in urls){ %>
+              <li class="list-group-item">
+                <a href="<%= urls[url].longURL %>"><%= urls[url].longURL %></a> - <a href="/u/<%= url %>"><%= url %></a>
+                <a href="/urls/<%= url %>" class="btn btn-primary" style="margin-left:25px;">Edit</a>
+                <form style="display:inline" method="POST" action=<%=`/urls/${url}/delete?_method=DELETE`%>>
+                  <button type="submit" name="Submit" class="btn btn-warning">Delete</button>
+                </form>
+              </li>
+            <% } %>
+          </ul>
+        <a href="/urls/new" class="btn btn-success" style="margin-top:10px">Create new Tiny URL</a>
+      </div>
+    </main>
   </body>
 </html>
